@@ -1,0 +1,38 @@
+{
+	"name": "adslist",
+	"description": "A Vue.js project",
+	"version": "1.0.0",
+	"author": "Jeontaeyun <jow1813@naver.com>",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+		"build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+	},
+	"dependencies": {
+		"axios": "^0.19.0",
+		"bootstrap": "^4.3.1",
+		"bootstrap-vue": "^2.0.0-rc.28",
+		"less": "^3.9.0",
+		"less-loader": "^5.0.0",
+		"vue": "^2.6.10"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 8"
+	],
+	"devDependencies": {
+		"babel-core": "^6.26.3",
+		"babel-loader": "^7.1.5",
+		"babel-preset-env": "^1.7.0",
+		"babel-preset-stage-3": "^6.24.1",
+		"cross-env": "^5.0.5",
+		"css-loader": "^0.28.11",
+		"file-loader": "^1.1.11",
+		"vue-loader": "^13.7.3",
+		"vue-template-compiler": "^2.6.10",
+		"webpack": "^3.12.0",
+		"webpack-dev-server": "^2.11.5"
+	}
+}
