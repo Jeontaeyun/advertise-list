@@ -1,46 +1,29 @@
 <template>
-  <b-list-group>
-    <b-list-group-item href="#" active class="flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-        <small>3 days ago</small>
-      </div>
+  <div>
+    <b-card>
+      <b-media>
+        <div class="info">
+          <small class="right">{{post.category_no}}</small>
+          <small>{{post.no}}</small>
+        </div>
+        <h5 class="mt-0 title">{{post.title}}</h5>
 
-      <p
-        class="mb-1"
-      >Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-
-      <small>Donec id elit non mi porta.</small>
-    </b-list-group-item>
-
-    <b-list-group-item href="#" class="flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-        <small class="text-muted">3 days ago</small>
-      </div>
-
-      <p
-        class="mb-1"
-      >Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-
-      <small class="text-muted">Donec id elit non mi porta.</small>
-    </b-list-group-item>
-
-    <b-list-group-item href="#" disabled class="flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Disabled List group item</h5>
-        <small class="text-muted">3 days ago</small>
-      </div>
-
-      <p
-        class="mb-1"
-      >Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-
-      <small class="text-muted">Donec id elit non mi porta.</small>
-    </b-list-group-item>
-  </b-list-group>
+        <p class="content">{{post.contents}}</p>
+      </b-media>
+    </b-card>
+  </div>
 </template>
 <script>
+export default {
+  props: {
+    post: Object,
+    category: Array
+  },
+  created: function() {
+    const cat = this.category.filter(item => item.no === this.post.category_no);
+    console.log(cat);
+  }
+};
 </script>
-<style scoped>
+<style lang="less" scoped>
 </style>
