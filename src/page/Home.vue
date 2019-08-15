@@ -21,17 +21,35 @@ export default {
   data: () => {
     return {
       posts: [],
-      ord: false,
+      ord: true,
       page: 1,
       category: []
     };
   },
+  watch: {
+    ord: function() {
+      this.posts = [];
+      this.page = 1;
+      this.$http
+        .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
+        .then(result => {
+          this.posts = this.posts.concat(result.data.list);
+        });
+    },
+    page: function() {
+      this.$http
+        .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
+        .then(result => {
+          // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
+          this.posts = this.posts.concat(result.data.list);
+          that.page = that.page + 1;
+        });
+    }
+  },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-    let page = 1;
-    const ordPage = this.ord ? "asc" : "desc";
     this.$http
-      .get(`request.php?page=${page++}&&ord=${ordPage}`)
+      .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
       .then(result => {
         this.posts = this.posts.concat(result.data.list);
       });
@@ -49,12 +67,7 @@ export default {
         document.documentElement.scrollTop + window.innerHeight ===
         document.documentElement.offsetHeight;
       if (bottomOfWindow) {
-        this.$http
-          .get(`request.php?page=${page++}&&ord=${ordPage}`)
-          .then(result => {
-            this.posts = this.posts.concat(result.data.list);
-            that.page = that.page + 1;
-          });
+        this.page++;
       }
     };
   },
