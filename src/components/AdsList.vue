@@ -1,8 +1,9 @@
 <template>
   <div>
-    <b-card no-body class="overflow-hidden">
+    <b-card class="overflow-hidden">
       <b-row no-gutters>
         <b-col md="6">
+          <div>Sponsered</div>
           <b-card-img src="https://picsum.photos/300/300/?image=20" class="rounded-0"></b-card-img>
         </b-col>
         <b-col md="6">
