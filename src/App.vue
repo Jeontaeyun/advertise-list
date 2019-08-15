@@ -7,7 +7,11 @@
 <script>
 import axios from "axios";
 import PostList from "./components/PostList";
-
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+const { API_DOMAIN: apiDomain } = process.env;
+axios.defaults.baseURL = apiDomain;
+console.log(axios.get("/request.php?page=1&&ord=asc"));
 export default {
   components: {
     PostList

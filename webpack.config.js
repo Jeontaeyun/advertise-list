@@ -1,5 +1,6 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv-webpack');
 
 module.exports = {
 	entry: './src/main.js',
@@ -46,6 +47,7 @@ module.exports = {
 		},
 		extensions: [ '*', '.js', '.vue', '.json' ]
 	},
+	plugins: [ new dotenv() ],
 	devServer: {
 		historyApiFallback: true,
 		noInfo: true,

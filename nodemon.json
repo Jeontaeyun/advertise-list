@@ -1,0 +1,5 @@
+{
+	"watch": [ "./*" ],
+	"exec": "NODE_ENV=development webpack-dev-server --hot",
+	"ext": "js json vue"
+}
