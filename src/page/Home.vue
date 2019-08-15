@@ -1,8 +1,8 @@
 <template>
   <div>
     <div>
-      <span @click="onChangeOrd" :class="{active: ord==='asc'}">오름차순</span>
-      <span @click="onChangeOrd" :class="{active: ord==='desc'}">내림차순</span>
+      <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
+      <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
     <PostList v-for="post in posts" :post="post" :key="post.id" />
     <AdsList />
@@ -21,18 +21,20 @@ export default {
   data: () => {
     return {
       posts: [],
-      ord: "asc",
+      ord: false,
       page: 1,
       category: []
     };
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-    const { page, ord } = this;
-    this.$http.get(`request.php?page=${page}&&ord=${ord}`).then(result => {
-      this.posts = this.posts.concat(result.data.list);
-    });
-
+    let page = 1;
+    const ordPage = this.ord ? "asc" : "desc";
+    this.$http
+      .get(`request.php?page=${page++}&&ord=${ordPage}`)
+      .then(result => {
+        this.posts = this.posts.concat(result.data.list);
+      });
     this.$http.get(`category.php`).then(result => {
       this.category = result.data.list;
     });
@@ -47,9 +49,12 @@ export default {
         document.documentElement.scrollTop + window.innerHeight ===
         document.documentElement.offsetHeight;
       if (bottomOfWindow) {
-        this.$http.get(`request.php?page=${page}&&ord=${ord}`).then(result => {
-          this.posts = this.posts.concat(result.data.list);
-        });
+        this.$http
+          .get(`request.php?page=${page++}&&ord=${ordPage}`)
+          .then(result => {
+            this.posts = this.posts.concat(result.data.list);
+            that.page = that.page + 1;
+          });
       }
     };
   },
@@ -57,9 +62,9 @@ export default {
     onChangeOrd: function(e) {
       const ordIndex = e.target;
       if (ordIndex.textContent === "오름차순") {
-        this.ord = "asc";
+        this.ord = true;
       } else if (ordIndex.textContent === "내림차순") {
-        this.ord = "desc";
+        this.ord = false;
       }
     }
   }
