@@ -17,13 +17,13 @@ export default {
   components: {
     Reply
   },
-  data: function() {
+  data() {
     return {
       article: null,
       replies: []
     };
   },
-  created: function() {
+  mounted() {
     this.$http
       .get(`detail.php?req_no=${this.$route.params.id}`)
       .then(result => {

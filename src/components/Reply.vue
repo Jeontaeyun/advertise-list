@@ -3,7 +3,7 @@
     <b-card>
       <b-media>
         <small>댓글</small>
-        <h5 class="mt-0">{{reply.email}}</h5>
+        <h5 class="mt-0">{{reply.email}}=</h5>
         <p>{{reply.updated_at}}</p>
         <p>{{reply.contents}}</p>
       </b-media>
@@ -12,9 +12,10 @@
 </template>
 <script>
 export default {
+  data() {},
   props: {
     reply: Object
   }
 };
-
+</script>
 <style lang="less"></style>;

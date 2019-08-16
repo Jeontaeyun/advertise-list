@@ -4,8 +4,12 @@
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
-    <PostList v-for="post in posts" :post="post" :key="post.id" />
-    <AdsList />
+    <div v-for="post in posts" :key="post.no">
+      <router-link :to="{path: '/page/'+ post.no}">
+        <post-list :post="post" />
+      </router-link>
+      <ads-list :postNumber="post.no" />
+    </div>
   </div>
 </template>
 
@@ -26,6 +30,7 @@ export default {
       category: []
     };
   },
+  //Axios와 같이 데이터가 변경되ㅣ어 API를 호출해야 할 때 watch를 사용하는 것이 좋다.
   watch: {
     ord: function() {
       this.posts = [];
@@ -42,9 +47,14 @@ export default {
         .then(result => {
           // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
           this.posts = this.posts.concat(result.data.list);
-          that.page = that.page + 1;
         });
     }
+  },
+  created() {
+    this.page = 1;
+    this.$http.get(`category.php`).then(result => {
+      this.category = this.category.concat(result.data.list);
+    });
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
@@ -53,13 +63,6 @@ export default {
       .then(result => {
         this.posts = this.posts.concat(result.data.list);
       });
-    this.$http.get(`category.php`).then(result => {
-      this.category = result.data.list;
-    });
-
-    this.$http.get(`ads.php?page=1&&limit=1`).then(result => {
-      //this.ads = result.data.list;
-    });
 
     // 인피니트 스크롤링 구현하는 방법
     window.onscroll = () => {

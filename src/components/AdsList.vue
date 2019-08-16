@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="isAds">
     <b-card class="overflow-hidden">
       <b-row no-gutters>
         <b-col md="6">
@@ -19,6 +19,32 @@
   </div>
 </template>
 <script>
+export default {
+  data() {
+    return {
+      page: 1,
+      limit: 1,
+      ads: [],
+      isAds: this.postNumber % 4 === 0
+    };
+  },
+  watch: {
+    page: function() {
+      this.$http
+        .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
+        .then(result => {});
+    }
+  },
+  props: {
+    postNumber: String
+  },
+  mounted() {
+    this.$http
+      .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
+      .then(result => {});
+  },
+  methods: {}
+};
 </script>
 <style lang="less" scoped>
 </style>
