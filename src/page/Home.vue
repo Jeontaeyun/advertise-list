@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="command">
-      <modal :category="category" />
+      <modal v-on:filterSave="checkFilter" :category="category" />
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
@@ -30,7 +30,8 @@ export default {
       posts: [],
       ord: true,
       page: 1,
-      category: []
+      category: [],
+      checked: []
     };
   },
   //Axios와 같이 데이터가 변경되ㅣ어 API를 호출해야 할 때 watch를 사용하는 것이 좋다.
@@ -81,6 +82,10 @@ export default {
     };
   },
   methods: {
+    checkFilter: function(data) {
+      this.checked = [];
+      this.checked = this.checked.concat(data);
+    },
     onChangeOrd: function(e) {
       const ordIndex = e.target;
       if (ordIndex.textContent === "오름차순") {

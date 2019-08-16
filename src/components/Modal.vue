@@ -8,11 +8,12 @@
         <p>필터</p>
         <div>
           <p v-for="(cate, index) in category" :key="index" class="cate">
-            <input type="checkbox" name="cate" :value="cate.no" checked />
+            <input type="checkbox" name="cate" v-model="filter" :value="cate" checked />
             <label>{{cate.name}}</label>
           </p>
+          {{filter}}
         </div>
-        <button>저장</button>
+        <button @click="handleFilterSave">저장</button>
       </div>
     </div>
   </div>
@@ -24,7 +25,8 @@ export default {
   data() {
     return {
       isView: false,
-      selectedCategory: null
+      selectedCategory: null,
+      filter: []
     };
   },
   props: {
@@ -35,6 +37,15 @@ export default {
       return (this.isView = true);
     },
     handleCancle: function() {
+      return (this.isView = false);
+    },
+    handleFilterSave: function() {
+      // 배열 입력 순서와 다르게 값을 정렬하는 함수, 배열 안의 객체의 순서를 정렬하는 다른 방법은 없을까?
+      this.filter.sort((a, b) => {
+        return a.no < b.no ? -1 : a.no > b.no ? 1 : 0;
+      });
+      this.$emit("filterSave", this.filter);
+      console.log(this.filter);
       return (this.isView = false);
     }
   }
