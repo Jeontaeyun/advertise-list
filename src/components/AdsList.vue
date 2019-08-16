@@ -1,17 +1,14 @@
 <template>
-  <div v-if="isAds" v-once>
+  <div v-if="isAds">
     <b-card class="overflow-hidden">
       <div class="sponsered">Sponsered</div>
       <b-row no-gutters>
         <b-col md="6">
-          <b-card-img src="https://picsum.photos/300/300/?image=20" class="rounded-0"></b-card-img>
+          <b-card-img :src="img" class="rounded-0"></b-card-img>
         </b-col>
         <b-col md="6">
-          <b-card-body title="Horizontal Card">
-            <b-card-text>
-              This is a wider card with supporting text as a natural lead-in to additional content.
-              This content is a little bit longer.
-            </b-card-text>
+          <b-card-body :title="title">
+            <b-card-text class="word-break">{{contents}}</b-card-text>
           </b-card-body>
         </b-col>
       </b-row>
@@ -23,44 +20,45 @@ export default {
   data() {
     return {
       page: 1,
-      limit: 1,
-      ads: [],
+      title: "",
+      contents: "",
+      img: "",
       isAds: false
     };
-  },
-  watch: {
-    page: function() {
-      this.$http
-        .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
-        .then(result => {
-          this.ads = this.ads.concat(result.data.list);
-          console.log(this.ads);
-          console.log(this.page);
-        });
-    }
   },
   props: {
     postNumber: Number
   },
-  mounted() {
+  created() {
     if (this.postNumber % 4 === 3) {
       this.isAds = true;
-      this.page++;
       this.$http
-        .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
+        .get(`ads.php`, {
+          params: { page: Math.round(this.postNumber / 4), limit: 1 }
+        })
         .then(result => {
-          this.ads = this.ads.concat(result.data.list);
+          this.title = result.data.list[0].title;
+          this.contents = result.data.list[0].contents;
+          this.img = `http://comento.cafe24.com/public/images/${result.data.list[0].img}`;
+          this.$forceUpdate();
         });
     } else {
       this.isAds = false;
     }
-  },
-  computed: {}
+  }
 };
 </script>
 <style lang="less" scoped>
 .sponsered {
   margin-bottom: 1rem;
   font-weight: bold;
+}
+.word-break {
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  line-height: 1;
+  height: 3em;
+  -webkit-line-clamp: 3;
 }
 </style>

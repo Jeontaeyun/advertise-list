@@ -32,7 +32,7 @@ export default {
       const cate = this.category.filter(
         cat => cat.no === this.post.category_no
       );
-      console.log(cate);
+
       return cate[0].name;
     }
   }

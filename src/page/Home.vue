@@ -40,7 +40,12 @@ export default {
       this.page = 1;
       this.posts = [];
       this.$http
-        .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
+        .get(`request.php`, {
+          params: {
+            page: this.page,
+            ord: this.ord ? "asc" : "desc"
+          }
+        })
         .then(result => {
           return (this.posts = this.posts.concat(result.data.list));
         });
@@ -48,9 +53,12 @@ export default {
     page: function() {
       if (this.page !== 1) {
         this.$http
-          .get(
-            `request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`
-          )
+          .get(`request.php`, {
+            params: {
+              page: this.page,
+              ord: this.ord ? "asc" : "desc"
+            }
+          })
           .then(result => {
             // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
             return (this.posts = this.posts.concat(result.data.list));
@@ -65,11 +73,19 @@ export default {
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-    this.$http
-      .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
-      .then(result => {
-        this.posts = this.posts.concat(result.data.list);
-      });
+    window.onload = () => {
+      this.$http
+        .get(`request.php`, {
+          params: {
+            page: this.page,
+            ord: this.ord ? "asc" : "desc",
+            category: null
+          }
+        })
+        .then(result => {
+          this.posts = this.posts.concat(result.data.list);
+        });
+    };
 
     // 인피니트 스크롤링 구현하는 방법
     window.onscroll = () => {

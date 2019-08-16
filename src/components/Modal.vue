@@ -11,7 +11,6 @@
             <input type="checkbox" name="cate" v-model="filter" :value="cate" checked />
             <label>{{cate.name}}</label>
           </p>
-          {{filter}}
         </div>
         <button @click="handleFilterSave">저장</button>
       </div>
@@ -45,7 +44,6 @@ export default {
         return a.no < b.no ? -1 : a.no > b.no ? 1 : 0;
       });
       this.$emit("filterSave", this.filter);
-      console.log(this.filter);
       return (this.isView = false);
     }
   }
