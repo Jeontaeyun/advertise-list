@@ -24,12 +24,12 @@ export default {
   data() {
     return {
       isView: false,
-      selectedCategory: null,
-      filter: []
+      selectedCategory: null
     };
   },
   props: {
-    category: Array
+    category: Array,
+    filter: Array
   },
   methods: {
     handleFilter: function() {

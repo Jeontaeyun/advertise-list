@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="command">
-      <modal v-on:filterSave="checkFilter" :category="category" />
+      <modal v-on:filterSave="checkFilter" :filter="filter" :category="category" />
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
@@ -31,7 +31,7 @@ export default {
       ord: true,
       page: 1,
       category: [],
-      checked: []
+      filter: []
     };
   },
   //Axios와 같이 데이터가 변경되ㅣ어 API를 호출해야 할 때 watch를 사용하는 것이 좋다.
@@ -69,23 +69,22 @@ export default {
   created() {
     this.$http.get(`category.php`).then(result => {
       this.category = this.category.concat(result.data.list);
+      this.filter = this.filter.concat(result.data.list);
     });
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-    window.onload = () => {
-      this.$http
-        .get(`request.php`, {
-          params: {
-            page: this.page,
-            ord: this.ord ? "asc" : "desc",
-            category: null
-          }
-        })
-        .then(result => {
-          this.posts = this.posts.concat(result.data.list);
-        });
-    };
+    this.$http
+      .get(`request.php`, {
+        params: {
+          page: this.page,
+          ord: this.ord ? "asc" : "desc",
+          category: null
+        }
+      })
+      .then(result => {
+        this.posts = this.posts.concat(result.data.list);
+      });
 
     // 인피니트 스크롤링 구현하는 방법
     window.onscroll = () => {
