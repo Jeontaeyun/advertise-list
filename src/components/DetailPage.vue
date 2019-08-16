@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <span>
@@ -15,10 +14,15 @@
 export default {
   props: {
     article: Object
+  },
+  data() {
+    return {
+      article: this.article
+    };
   }
 };
 </script>
-<style>
+<style lang="less" scoped>
 .title {
   font-size: 2rem;
   margin-top: 2rem;

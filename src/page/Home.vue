@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="ord">
+    <div class="command">
       <modal />
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
-    <div v-for="(post,index) in posts" :key="post.no">
+    <div v-for="(post,index) in posts" :key="index">
       <router-link class="link" :to="{path: '/page/'+ post.no}">
         <post-list :post="post" />
       </router-link>
@@ -36,21 +36,25 @@ export default {
   //Axios와 같이 데이터가 변경되ㅣ어 API를 호출해야 할 때 watch를 사용하는 것이 좋다.
   watch: {
     ord: function() {
-      this.posts = [];
       this.page = 1;
+      this.posts = [];
       this.$http
         .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
         .then(result => {
-          this.posts = this.posts.concat(result.data.list);
+          return (this.posts = this.posts.concat(result.data.list));
         });
     },
     page: function() {
-      this.$http
-        .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
-        .then(result => {
-          // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
-          this.posts = this.posts.concat(result.data.list);
-        });
+      if (this.page !== 1) {
+        this.$http
+          .get(
+            `request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`
+          )
+          .then(result => {
+            // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
+            return (this.posts = this.posts.concat(result.data.list));
+          });
+      }
     }
   },
   created() {
@@ -60,10 +64,10 @@ export default {
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-
     this.$http
       .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
       .then(result => {
+        console.log("hi");
         this.posts = this.posts.concat(result.data.list);
       });
 
@@ -95,18 +99,11 @@ span.active {
   color: #eb7070;
 }
 
-.ord {
+.command {
   display: flex;
   flex-direction: row;
   span {
-    margin: 0.5%;
-    flex: 0.1;
-  }
-  .modal {
-    flex: 0.8;
-  }
-  @media (max-width: 700) {
-    font-size: 0.8rem;
+    margin-left: 0.5rem;
   }
 }
 

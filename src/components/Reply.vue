@@ -1,22 +1,29 @@
 <template>
-  <div class="container" @onclick="handleMore">
+  <div class="container" @click="handleMore">
     <b-card>
       <b-media>
         <small>댓글</small>
         <h5 class="mt-0">{{reply.email}}=</h5>
         <p>{{reply.updated_at}}</p>
-        <p class="reply">{{reply.contents}}</p>
+        <p v-bind:class="{more: more}">{{reply.contents}}</p>
       </b-media>
     </b-card>
   </div>
 </template>
 <script>
 export default {
+  data() {
+    return {
+      more: true
+    };
+  },
   props: {
     reply: Object
   },
   methods: {
-    handleMore: function() {}
+    handleMore: function() {
+      return (this.more = !this.more);
+    }
   }
 };
 </script>
@@ -25,7 +32,8 @@ export default {
   margin-top: 2%;
   margin-bottom: 2%;
 }
-.reply {
+
+.more {
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: hidden;

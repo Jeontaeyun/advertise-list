@@ -42,7 +42,7 @@ export default {
     }
   },
   props: {
-    postNumber: String
+    postNumber: Number
   },
   mounted() {
     this.$http
