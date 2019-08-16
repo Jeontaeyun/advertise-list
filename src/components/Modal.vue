@@ -6,9 +6,12 @@
       <div class="modalw">
         <span @click="handleCancle">X</span>
         <p>필터</p>
-        <input type="checkbox" name="cate" value="1" />카테고리1
-        <input type="checkbox" name="cate" value="2" />카테고리2
-        <input type="checkbox" name="cate" value="3" />카테고리3
+        <div>
+          <p v-for="(cate, index) in category" :key="index" class="cate">
+            <input type="checkbox" name="cate" :value="cate.no" checked />
+            <label>{{cate.name}}</label>
+          </p>
+        </div>
         <button>저장</button>
       </div>
     </div>
@@ -23,6 +26,9 @@ export default {
       isView: false,
       selectedCategory: null
     };
+  },
+  props: {
+    category: Array
   },
   methods: {
     handleFilter: function() {
@@ -50,6 +56,7 @@ export default {
   top: 50%;
   right: 50%;
   z-index: 20;
+  width: 40%;
   padding: 1rem 4%;
   background: white;
   transform: translate(50%, -50%);
@@ -63,10 +70,14 @@ export default {
     font-size: 1.2rem;
     font-weight: 600;
   }
+  .cate {
+    font-size: 1rem;
+    font-weight: normal;
+  }
   input {
     margin-right: 2%;
-    &:last-of-type {
-      margin-right: 0;
+    & + label {
+      margin-right: 3%;
     }
   }
   button {

@@ -3,7 +3,7 @@
     <b-card>
       <b-media>
         <div class="info">
-          <small class="left">{{post.category_no}}</small>
+          <small class="left">{{categoryName()}}</small>
           <small class="right">No. {{post.no}}</small>
         </div>
         <h5 class="mt-0 title">{{post.title}}</h5>
@@ -20,11 +20,22 @@
 </template>
 <script>
 export default {
+  data() {
+    return {};
+  },
   props: {
     post: Object,
     category: Array
   },
-  created: function() {}
+  methods: {
+    categoryName: function() {
+      const cate = this.category.filter(
+        cat => cat.no === this.post.category_no
+      );
+      console.log(cate);
+      return cate[0].name;
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -51,7 +62,6 @@ export default {
     .left {
       background: #eb7070;
       padding: 0.5% 1%;
-      margin-left: 1%;
       border-radius: 40rem;
       color: white;
     }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAds">
+  <div v-if="isAds" v-once>
     <b-card class="overflow-hidden">
       <div class="sponsered">Sponsered</div>
       <b-row no-gutters>
@@ -25,7 +25,7 @@ export default {
       page: 1,
       limit: 1,
       ads: [],
-      isAds: this.postNumber % 4 === 3
+      isAds: false
     };
   },
   watch: {
@@ -35,22 +35,27 @@ export default {
         .then(result => {
           this.ads = this.ads.concat(result.data.list);
           console.log(this.ads);
+          console.log(this.page);
         });
-    },
-    isAds: function() {
-      if (isAds) this.page++;
     }
   },
   props: {
     postNumber: Number
   },
   mounted() {
-    this.$http
-      .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
-      .then(result => {
-        this.ads = this.ads.concat(result.data.list);
-      });
-  }
+    if (this.postNumber % 4 === 3) {
+      this.isAds = true;
+      this.page++;
+      this.$http
+        .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
+        .then(result => {
+          this.ads = this.ads.concat(result.data.list);
+        });
+    } else {
+      this.isAds = false;
+    }
+  },
+  computed: {}
 };
 </script>
 <style lang="less" scoped>

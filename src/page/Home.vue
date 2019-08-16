@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="command">
-      <modal />
+      <modal :category="category" />
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
     <div v-for="(post,index) in posts" :key="index">
       <router-link class="link" :to="{path: '/page/'+ post.no}">
-        <post-list :post="post" />
+        <post-list :post="post" :category="category" />
       </router-link>
       <ads-list :postNumber="index" />
     </div>
@@ -67,7 +67,6 @@ export default {
     this.$http
       .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
       .then(result => {
-        console.log("hi");
         this.posts = this.posts.concat(result.data.list);
       });
 
@@ -102,8 +101,12 @@ span.active {
 .command {
   display: flex;
   flex-direction: row;
+  div {
+    flex: 0.84;
+  }
   span {
-    margin-left: 0.5rem;
+    flex: 0.08;
+    text-align: right;
   }
 }
 

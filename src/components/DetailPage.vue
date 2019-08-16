@@ -1,24 +1,30 @@
 <template>
   <div>
-    <span>
-      <span class="left">{{article.category_no}}</span>
-      <span class="right">No. {{article.no}}</span>
-      <div class="title">{{article.title}}</div>
-      <span>{{article.email}}</span> |
-      <span>No. {{article.updated_at}}</span>
-      <div class="contents">{{article.contents}}</div>
-    </span>
+    <span class="left">{{categoryName()}}</span>
+    <span class="right">No. {{article.no}}</span>
+    <div class="title">{{article.title}}</div>
+    <span>{{article.email}}</span> |
+    <span>{{article.updated_at}}</span>
+    <div class="contents">{{article.contents}}</div>
   </div>
 </template>
 <script>
 export default {
-  props: {
-    article: Object
-  },
   data() {
-    return {
-      article: this.article
-    };
+    return {};
+  },
+  props: {
+    article: Object,
+    category: Array
+  },
+  methods: {
+    categoryName: function() {
+      const cate = this.category.filter(
+        cat => cat.no === this.article.category_no
+      );
+      console.log(cate);
+      return cate[0].name;
+    }
   }
 };
 </script>

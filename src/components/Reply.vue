@@ -37,7 +37,8 @@ export default {
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: hidden;
+  width: 100%;
   line-height: 1;
-  height: 1em;
+  height: 1.05rem;
 }
 </style>;
