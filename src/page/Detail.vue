@@ -1,21 +1,18 @@
 <template>
   <div>
-    <span>{{article.category_no}}</span>
-    <span>No. {{article.no}}</span>
-    <div>{{article.title}}</div>
-    <span>{{article.email}}</span> |
-    <span>No. {{article.updated_at}}</span>
-    <div>{{article.contents}}</div>
+    <detail-page :article="article" />
     <div v-if="replies">
-      <Reply v-for="reply in replies" :reply="reply" :key="reply.no" />
+      <reply v-for="reply in replies" :reply="reply" :key="reply.no" />
     </div>
   </div>
 </template>
 <script>
 import Reply from "../components/Reply";
+import DetailPage from "../components/DetailPage";
 export default {
   components: {
-    Reply
+    Reply,
+    DetailPage
   },
   data() {
     return {
@@ -27,9 +24,8 @@ export default {
     this.$http
       .get(`detail.php?req_no=${this.$route.params.id}`)
       .then(result => {
-        console.log(result.data.detail);
         this.article = result.data.detail.article;
-        this.replies = result.data.detail.replies;
+        this.replies = this.replies.concat(result.data.detail.replies);
       });
   }
 };

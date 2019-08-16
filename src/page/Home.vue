@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div>
+    <div class="ord">
+      <modal />
       <span @click="onChangeOrd" :class="{active: ord}">오름차순</span>
       <span @click="onChangeOrd" :class="{active: !ord}">내림차순</span>
     </div>
-    <div v-for="post in posts" :key="post.no">
-      <router-link :to="{path: '/page/'+ post.no}">
+    <div v-for="(post,index) in posts" :key="post.no">
+      <router-link class="link" :to="{path: '/page/'+ post.no}">
         <post-list :post="post" />
       </router-link>
-      <ads-list :postNumber="post.no" />
+      <ads-list :postNumber="index" />
     </div>
   </div>
 </template>
@@ -16,11 +17,13 @@
 <script>
 import PostList from "../components/PostList";
 import AdsList from "../components/AdsList";
+import Modal from "../components/Modal";
 
 export default {
   components: {
     PostList,
-    AdsList
+    AdsList,
+    Modal
   },
   data: () => {
     return {
@@ -51,13 +54,13 @@ export default {
     }
   },
   created() {
-    this.page = 1;
     this.$http.get(`category.php`).then(result => {
       this.category = this.category.concat(result.data.list);
     });
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
+
     this.$http
       .get(`request.php?page=${this.page}&&ord=${this.ord ? "asc" : "desc"}`)
       .then(result => {
@@ -90,6 +93,26 @@ export default {
 <style lang="less" scoped>
 span.active {
   color: #eb7070;
+}
+
+.ord {
+  display: flex;
+  flex-direction: row;
+  span {
+    margin: 0.5%;
+    flex: 0.1;
+  }
+  .modal {
+    flex: 0.8;
+  }
+  @media (max-width: 700) {
+    font-size: 0.8rem;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: black;
 }
 </style>
 

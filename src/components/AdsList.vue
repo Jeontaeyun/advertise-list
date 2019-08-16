@@ -1,9 +1,9 @@
 <template>
   <div v-if="isAds">
     <b-card class="overflow-hidden">
+      <div class="sponsered">Sponsered</div>
       <b-row no-gutters>
         <b-col md="6">
-          <div>Sponsered</div>
           <b-card-img src="https://picsum.photos/300/300/?image=20" class="rounded-0"></b-card-img>
         </b-col>
         <b-col md="6">
@@ -25,14 +25,20 @@ export default {
       page: 1,
       limit: 1,
       ads: [],
-      isAds: this.postNumber % 4 === 0
+      isAds: this.postNumber % 4 === 3
     };
   },
   watch: {
     page: function() {
       this.$http
         .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
-        .then(result => {});
+        .then(result => {
+          this.ads = this.ads.concat(result.data.list);
+          console.log(this.ads);
+        });
+    },
+    isAds: function() {
+      if (isAds) this.page++;
     }
   },
   props: {
@@ -41,10 +47,15 @@ export default {
   mounted() {
     this.$http
       .get(`ads.php?page=${this.page}&&limit=${this.limit}`)
-      .then(result => {});
-  },
-  methods: {}
+      .then(result => {
+        this.ads = this.ads.concat(result.data.list);
+      });
+  }
 };
 </script>
 <style lang="less" scoped>
+.sponsered {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
 </style>
