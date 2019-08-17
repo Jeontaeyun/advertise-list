@@ -19,6 +19,7 @@ import PostList from "../components/PostList";
 import AdsList from "../components/AdsList";
 import Modal from "../components/Modal";
 import getAxios from "../utils/getAxios";
+import infinite from "../utils/infinite";
 
 export default {
   components: {
@@ -54,16 +55,10 @@ export default {
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
     getAxios.getPostList(this);
-
+    infinite(() => {
+      this.page++;
+    });
     // 인피니트 스크롤링 구현하는 방법
-    window.onscroll = () => {
-      let bottomOfWindow =
-        document.documentElement.scrollTop + window.innerHeight ===
-        document.documentElement.offsetHeight;
-      if (bottomOfWindow) {
-        this.page++;
-      }
-    };
   },
   methods: {
     checkFilter: function(data) {
