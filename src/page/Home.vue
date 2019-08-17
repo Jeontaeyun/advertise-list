@@ -18,6 +18,7 @@
 import PostList from "../components/PostList";
 import AdsList from "../components/AdsList";
 import Modal from "../components/Modal";
+import getAxios from "../utils/getAxios";
 
 export default {
   components: {
@@ -39,52 +40,20 @@ export default {
     ord: function() {
       this.page = 1;
       this.posts = [];
-      this.$http
-        .get(`request.php`, {
-          params: {
-            page: this.page,
-            ord: this.ord ? "asc" : "desc"
-          }
-        })
-        .then(result => {
-          return (this.posts = this.posts.concat(result.data.list));
-        });
+      getAxios.getPostList(this);
     },
     page: function() {
       if (this.page !== 1) {
-        this.$http
-          .get(`request.php`, {
-            params: {
-              page: this.page,
-              ord: this.ord ? "asc" : "desc"
-            }
-          })
-          .then(result => {
-            // 마지막 데이터이면 해당 기능 멈춰줘야하는데...
-            return (this.posts = this.posts.concat(result.data.list));
-          });
+        getAxios.getPostList(this);
       }
     }
   },
   created() {
-    this.$http.get(`category.php`).then(result => {
-      this.category = this.category.concat(result.data.list);
-      this.filter = this.filter.concat(result.data.list);
-    });
+    getAxios.getCategory(this);
   },
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
-    this.$http
-      .get(`request.php`, {
-        params: {
-          page: this.page,
-          ord: this.ord ? "asc" : "desc",
-          category: null
-        }
-      })
-      .then(result => {
-        this.posts = this.posts.concat(result.data.list);
-      });
+    getAxios.getPostList(this);
 
     // 인피니트 스크롤링 구현하는 방법
     window.onscroll = () => {

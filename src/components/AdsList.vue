@@ -16,6 +16,8 @@
   </div>
 </template>
 <script>
+import getAxios from "../utils/getAxios";
+
 export default {
   data() {
     return {
@@ -31,17 +33,7 @@ export default {
   },
   created() {
     if (this.postNumber % 4 === 3) {
-      this.isAds = true;
-      this.$http
-        .get(`ads.php`, {
-          params: { page: Math.round(this.postNumber / 4), limit: 1 }
-        })
-        .then(result => {
-          this.title = result.data.list[0].title;
-          this.contents = result.data.list[0].contents;
-          this.img = `http://comento.cafe24.com/public/images/${result.data.list[0].img}`;
-          this.$forceUpdate();
-        });
+      getAxios.getAds(this);
     } else {
       this.isAds = false;
     }
