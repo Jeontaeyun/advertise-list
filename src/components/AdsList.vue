@@ -33,6 +33,7 @@ export default {
   },
   created() {
     if (this.postNumber % 4 === 3) {
+      this.isAds = true;
       getAxios.getAds(this);
     } else {
       this.isAds = false;
