@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-// 공통되게 변수를 저장할 수 없을까 ?
+@import "../commonLess/color.less";
 .main {
   margin: 10px auto;
   .content {
@@ -60,7 +60,7 @@ export default {
       float: right;
     }
     .left {
-      background: #eb7070;
+      background: @primary;
       padding: 0.5% 1%;
       border-radius: 40rem;
       color: white;

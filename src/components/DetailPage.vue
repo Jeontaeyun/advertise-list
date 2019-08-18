@@ -28,6 +28,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import "../commonLess/color.less";
 .title {
   font-size: 2rem;
   margin-top: 2rem;
@@ -37,7 +38,7 @@ export default {
   margin-bottom: 2rem;
 }
 .left {
-  background: #eb7070;
+  background: @primary;
   padding: 0.5% 1%;
   border-radius: 40rem;
   color: white;

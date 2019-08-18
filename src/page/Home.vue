@@ -55,6 +55,7 @@ export default {
   mounted() {
     // 처음 10개 목록을 불러오는 Axios 처리
     getAxios.getPostList(this);
+    // 재 사용성이 높은 Infinite 로직은 따로 분리해서 관리해주는 것이 낫다.
     infinite(() => {
       this.page++;
     });
@@ -78,8 +79,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "../commonLess/color.less";
 span.active {
-  color: #eb7070;
+  color: @primary;
 }
 
 .command {
